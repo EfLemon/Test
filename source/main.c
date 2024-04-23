@@ -4,13 +4,7 @@
  *	Diseño de Microcontroladores
  */
 
-/**
- * @File	OneLed.c
- * @brief	Application entry point.
-*/
-/*Standar input/output to debug Console*/
 #include <stdio.h>
-/**Standar integer definition provided by the Compile*/
 #include <stdint.h>
 #include "MK64F12.h"
 
