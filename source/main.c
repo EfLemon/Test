@@ -4,52 +4,31 @@
  *	Diseño de Microcontroladores
  */
 
-/*
- * Copyright 2016-2024 NXP
- * All rights reserved.
- *
- * SPDX-License-Identifier: BSD-3-Clause
- */
-
 /**
- * @file    Test.c
- * @brief   Application entry point.
- */
+ * @File	OneLed.c
+ * @brief	Application entry point.
+*/
+/*Standar input/output to debug Console*/
 #include <stdio.h>
-#include "board.h"
-#include "peripherals.h"
-#include "pin_mux.h"
-#include "clock_config.h"
+/**Standar integer definition provided by the Compile*/
+#include <stdint.h>
 #include "MK64F12.h"
-#include "fsl_debug_console.h"
-/* TODO: insert other include files here. */
 
-/* TODO: insert other definitions and declarations here. */
-
-/*
- * @brief   Application entry point.
- */
 int main(void) {
+	SIM->SCGC5 = 0x400;
+	PORTB->PCR[22] = 0X00000100;
+	GPIOB->PDOR = 0X00400000;
+	GPIOB->PDDR = 0X00400000;
 
-    /* Init board hardware. */
-    BOARD_InitBootPins();
-    BOARD_InitBootClocks();
-    BOARD_InitBootPeripherals();
-#ifndef BOARD_INIT_DEBUG_CONSOLE_PERIPHERAL
-    /* Init FSL debug console. */
-    BOARD_InitDebugConsole();
-#endif
+	while(1) {
+		GPIOB->PDOR = 0;
+		printf("RED LED ON \n");
 
-    PRINTF("Hello World\r\n");
+		GPIOB->PDOR = 0X00400000;
+		GPIOB->PDOR = 0X00000000;
+		GPIOB->PDOR = 0X00200000;
 
-    /* Force the counter to be placed into memory. */
-    volatile static int i = 0 ;
-    /* Enter an infinite loop, just incrementing a counter. */
-    while(1) {
-        i++ ;
-        /* 'Dummy' NOP to allow source level single stepping of
-            tight while() loop */
-        __asm volatile ("nop");
-    }
-    return 0 ;
+		printf("RED LED OFF \n");
+	}
+	return 0;
 }
